@@ -8,6 +8,7 @@ import {
   AutoIncrement,
   Unique,
 } from 'sequelize-typescript';
+import { ROLES } from 'src/common/constants';
 
 @Scopes({
   default: {
@@ -48,8 +49,8 @@ export class Users extends Model {
   @Column(DataType.STRING)
   password: string;
 
-  @Column(DataType.STRING)
-  role: string;
+  @Column(DataType.ENUM(ROLES.CONSULTANT, ROLES.PATIENT))
+  role: ROLES;
 
   @Column(DataType.STRING)
   createdBy: number;

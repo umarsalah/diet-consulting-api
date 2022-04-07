@@ -1,9 +1,3 @@
-export const CONFIG = {
-  DATABASE: 'database',
-};
-
-export const PROVIDERS = {
-  DATABASE_PROVIDER: 'databaseProvider',
-  USERS_PROVIDER: 'usersProvider',
-  QUESTIONS_PROVIDER: 'questionsProvider',
-};
+export { ROLES } from './enums';
+export { CONFIG } from './configs';
+export { PROVIDERS } from './providers';
