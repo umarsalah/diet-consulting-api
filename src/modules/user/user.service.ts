@@ -19,4 +19,7 @@ export class UserService {
     });
     return { firstName: patient.firstName, lastName: patient.lastName };
   }
+  async getUserByEmail(email: string): Promise<Users> {
+    return await this.usersRepository.findOne({ where: { email } });
+  }
 }
