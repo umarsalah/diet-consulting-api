@@ -2,21 +2,19 @@ import {
   Model,
   Table,
   Column,
-  Scopes,
   DataType,
   PrimaryKey,
-  AutoIncrement,
   ForeignKey,
+  AutoIncrement,
+  DefaultScope,
 } from 'sequelize-typescript';
 
 import { Users } from '../user/user.model';
 import { Questions } from '../question/question.model';
 
-@Scopes({
-  default: {
-    attributes: {
-      exclude: ['deletedAt'],
-    },
+@DefaultScope({
+  attributes: {
+    exclude: ['deletedAt'],
   },
 })
 @Table({
@@ -47,6 +45,9 @@ export class Answers extends Model {
 
   @Column(DataType.STRING)
   recommendations: string;
+
+  @Column(DataType.BOOLEAN)
+  isDraft: boolean;
 
   @Column(DataType.STRING)
   createdBy: number;

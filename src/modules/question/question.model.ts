@@ -2,7 +2,7 @@ import {
   Model,
   Table,
   Column,
-  Scopes,
+  DefaultScope,
   DataType,
   PrimaryKey,
   AutoIncrement,
@@ -11,11 +11,9 @@ import {
 
 import { Users } from '../user/user.model';
 
-@Scopes({
-  default: {
-    attributes: {
-      exclude: ['deletedAt'],
-    },
+@DefaultScope({
+  attributes: {
+    exclude: ['deletedAt'],
   },
 })
 @Table({

@@ -7,13 +7,19 @@ import {
   PrimaryKey,
   AutoIncrement,
   Unique,
+  DefaultScope,
 } from 'sequelize-typescript';
 import { ROLES } from 'src/common/constants';
 
+@DefaultScope({
+  attributes: {
+    exclude: ['deletedAt'],
+  },
+})
 @Scopes({
-  default: {
+  basic: {
     attributes: {
-      exclude: ['deletedAt'],
+      exclude: ['deletedAt,password'],
     },
   },
 })
