@@ -29,20 +29,26 @@ export class UserService {
     return { firstName: patient?.firstName, lastName: patient?.lastName };
   }
 
-  async getUserByEmail(email: string): Promise<Users> {
-    return await this.usersRepository.findOne({ where: { email } });
+  async getUserByUserNameOrEmail(userNameOrEmail: {
+    email?: string;
+    userName?: string;
+  }): Promise<Users> {
+    return this.usersRepository.findOne({
+      where: {
+        [Op.or]: [
+          { email: userNameOrEmail.email },
+          { userName: userNameOrEmail.userName },
+        ],
+      },
+    });
   }
 
   async signup(newUserInfo: SignupDto): Promise<User> {
     try {
       // check if there is a user with the same email or username
-      const userWithSameEmailOrUsername = await this.usersRepository.findOne({
-        where: {
-          [Op.or]: [
-            { email: newUserInfo.email },
-            { userName: newUserInfo.userName },
-          ],
-        },
+      const userWithSameEmailOrUsername = await this.getUserByUserNameOrEmail({
+        email: newUserInfo.email,
+        userName: newUserInfo.userName,
       });
       if (userWithSameEmailOrUsername) {
         throw new HttpException(
