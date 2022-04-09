@@ -8,8 +8,8 @@ export const verifyToken = (token, secret) =>
     return decode;
   });
 
-export const generateToken = (email: string) => {
-  return jwt.sign({ user: email }, 'secret', {
+export const generateToken = (userName: string) => {
+  return jwt.sign({ user: userName }, 'secret', {
     expiresIn: '8h',
   });
 };

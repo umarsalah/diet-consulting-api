@@ -47,7 +47,7 @@ export class Users extends Model {
   firstName: string;
 
   @Column(DataType.STRING)
-  middleName: string;
+  middleName?: string;
 
   @Column(DataType.STRING)
   lastName: string;
@@ -59,10 +59,10 @@ export class Users extends Model {
   role: ROLES;
 
   @Column(DataType.STRING)
-  createdBy: number;
+  createdBy: string;
 
   @Column(DataType.STRING)
-  updatedBy: number;
+  updatedBy: string;
 
   @Column(DataType.DATE)
   createdAt: Date;
