@@ -7,6 +7,7 @@ import {
 
 import { ERRORS, PROVIDERS, Question } from 'src/common/constants';
 import { AnswerService } from '../answer/answer.service';
+import { AnswerDto } from './dto/answer.dto';
 
 import { Questions } from './question.model';
 
@@ -48,6 +49,29 @@ export class QuestionService {
       const draft = await this.answersService.findDraft(questionId, userId);
 
       return { question, answers, draft };
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async createDraftAnswer(
+    questionId: number,
+    userId: number,
+    answer: AnswerDto,
+  ): Promise<AnswerDto> {
+    try {
+      const question = await this.questionsRepository.findOne({
+        where: { id: questionId },
+      });
+      if (!question) {
+        throw new HttpException(ERRORS.QUESTION_NOT_FOUND, 404);
+      }
+      const draft = await this.answersService.createDraft(
+        questionId,
+        userId,
+        answer,
+      );
+      return draft;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
