@@ -1,7 +1,7 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 
-import { ROLES } from 'src/common/constants';
-import { Roles } from 'src/common/decorators';
+import { Question, ROLES } from 'src/common/constants';
+import { Roles, User } from 'src/common/decorators';
 
 import { QuestionService } from './question.service';
 import { Questions } from './question.model';
@@ -11,18 +11,17 @@ export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
   @Roles(ROLES.CONSULTANT)
-  @Get(':pageNr')
-  async findAll(
-    @Param('pageNr', ParseIntPipe) pageNr: number,
-  ): Promise<Questions[]> {
-    return await this.questionService.findAll(pageNr);
+  @Get()
+  findAll(@Query('pageNr', ParseIntPipe) pageNr: number): Promise<Questions[]> {
+    return this.questionService.findAll(pageNr);
   }
 
   @Roles(ROLES.CONSULTANT)
   @Get(':questionId')
-  async findOne(
+  findOne(
     @Param('questionId', ParseIntPipe) questionId: number,
-  ): Promise<Questions> {
-    return await this.questionService.findOne(questionId);
+    @User() user: { id: number },
+  ): Promise<Question> {
+    return this.questionService.findOne(questionId, user.id);
   }
 }
