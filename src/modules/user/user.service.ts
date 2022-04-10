@@ -37,8 +37,8 @@ export class UserService {
     return this.usersRepository.findOne({
       where: {
         [Op.or]: [
-          { email: userNameOrEmail.email },
-          { userName: userNameOrEmail.userName },
+          { email: userNameOrEmail?.email },
+          { userName: userNameOrEmail?.userName },
         ],
       },
     });

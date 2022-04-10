@@ -33,7 +33,9 @@ export class AuthGuards implements CanActivate {
 
     const userFromDb = await this.userService.getUserByUserNameOrEmail({
       userName: decoded.user,
+      email: '',
     });
+
     if (!userFromDb) {
       return false;
     }
