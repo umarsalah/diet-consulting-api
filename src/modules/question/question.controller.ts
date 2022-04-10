@@ -17,4 +17,12 @@ export class QuestionController {
   ): Promise<Questions[]> {
     return await this.questionService.findAll(pageNr);
   }
+
+  @Roles(ROLES.CONSULTANT)
+  @Get(':questionId')
+  async findOne(
+    @Param('questionId', ParseIntPipe) questionId: number,
+  ): Promise<Questions> {
+    return await this.questionService.findOne(questionId);
+  }
 }

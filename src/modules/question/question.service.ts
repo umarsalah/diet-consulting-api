@@ -11,6 +11,7 @@ export class QuestionService {
     private readonly questionsRepository: typeof Questions,
   ) {}
 
+  // Find all questions with pagination and sorting
   async findAll(pageNr: number): Promise<Questions[]> {
     const questions = await this.questionsRepository.findAll({
       limit: 10,
@@ -22,4 +23,7 @@ export class QuestionService {
     });
     return questions;
   }
+
+  // Find one question by id with it answers
+  async findOne(questionId: number): Promise<Questions> {}
 }
