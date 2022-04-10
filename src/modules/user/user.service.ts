@@ -7,10 +7,11 @@ import {
 } from '@nestjs/common';
 import { Op } from 'sequelize';
 
-import { Users } from './user.model';
-import { SignupDto } from './dto/signup.dto';
+import { SignupDto, LoginDto } from './dto';
 import { ERRORS, PROVIDERS, User } from 'src/common/constants';
-import { generateToken, hashPassword } from 'src/common/utils';
+import { generateToken, hashPassword, comparePassword } from 'src/common/utils';
+
+import { Users } from './user.model';
 
 @Injectable()
 export class UserService {
@@ -73,6 +74,47 @@ export class UserService {
         email: newUser.email,
         userName: newUser.userName,
         token: generateToken(newUser.userName),
+      };
+    } catch (e) {
+      throw new InternalServerErrorException(e);
+    }
+  }
+  async login(loginInfo: LoginDto): Promise<User> {
+    try {
+      // user can login by his email or username
+      const user = await this.getUserByUserNameOrEmail({
+        email: loginInfo.userNameOrEmail,
+        userName: loginInfo.userNameOrEmail,
+      });
+      if (!user) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.UNAUTHORIZED,
+            message: ERRORS.INCORRECT_DATA,
+          },
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
+      // check if the password is correct
+      const isPasswordCorrect = await comparePassword(
+        loginInfo.password,
+        user.password,
+      );
+      if (!isPasswordCorrect) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.UNAUTHORIZED,
+            message: ERRORS.INCORRECT_DATA,
+          },
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
+      return {
+        id: user.id,
+        role: user.role,
+        email: user.email,
+        userName: user.userName,
+        token: generateToken(user.userName),
       };
     } catch (e) {
       throw new InternalServerErrorException(e);
