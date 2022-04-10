@@ -3,11 +3,14 @@ import { ValidationPipe } from '@nestjs/common';
 
 import { AuthGuards, RolesGuard } from './common/guards';
 import { UserService } from './modules/user/user.service';
+import { CustomLogger } from './common/logger';
 
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: new CustomLogger(),
+  });
 
   app.setGlobalPrefix('api/v1');
   app.useGlobalGuards(new AuthGuards(app.get(UserService), new Reflector()));
