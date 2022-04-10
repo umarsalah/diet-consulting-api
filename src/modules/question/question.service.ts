@@ -54,6 +54,7 @@ export class QuestionService {
     }
   }
 
+  // the default answer for a question is draft
   async createDraftAnswer(
     questionId: number,
     userId: number,
