@@ -43,4 +43,39 @@ export class AnswerService {
     });
     return newAnswer;
   }
+
+  // Update a draft answer for a question
+  async updateDraft(
+    questionId: number,
+    userId: number,
+    answer: AnswerDto,
+  ): Promise<void> {
+    await this.answersRepository.update(
+      {
+        ...answer,
+        isDraft: true,
+        updatedBy: userId,
+      },
+      {
+        where: { questionId, userId, isDraft: true },
+      },
+    );
+  }
+
+  // finally publish an answer for a question
+  async createAnswer(
+    questionId: number,
+    userId: number,
+    answer: AnswerDto,
+  ): Promise<Answers> {
+    const newAnswer = await this.answersRepository.create({
+      ...answer,
+      questionId,
+      userId,
+      isDraft: false,
+      createdBy: userId,
+      updatedBy: userId,
+    });
+    return newAnswer;
+  }
 }

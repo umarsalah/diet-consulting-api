@@ -55,24 +55,35 @@ export class QuestionService {
   }
 
   // the default answer for a question is draft
-  async createDraftAnswer(
+  async createOrUpdateDraftAnswer(
+    questionId: number,
+    userId: number,
+    answer: AnswerDto,
+  ): Promise<AnswerDto> {
+    const ifAnswer = await this.questionsRepository.findOne({
+      where: { id: questionId },
+    });
+    if (!ifAnswer) {
+      throw new HttpException(ERRORS.QUESTION_NOT_FOUND, 404);
+    }
+    await this.upsertDraftAnswer(questionId, userId, answer);
+    return answer;
+  }
+
+  // update a draft answer if found or create it for a question
+  async upsertDraftAnswer(
     questionId: number,
     userId: number,
     answer: AnswerDto,
   ): Promise<AnswerDto> {
     try {
-      const question = await this.questionsRepository.findOne({
-        where: { id: questionId },
-      });
-      if (!question) {
-        throw new HttpException(ERRORS.QUESTION_NOT_FOUND, 404);
+      const draft = await this.answersService.findDraft(questionId, userId);
+      if (draft) {
+        await this.answersService.updateDraft(questionId, userId, answer);
+      } else {
+        await this.answersService.createDraft(questionId, userId, answer);
       }
-      const draft = await this.answersService.createDraft(
-        questionId,
-        userId,
-        answer,
-      );
-      return draft;
+      return answer;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

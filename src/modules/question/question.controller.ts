@@ -1,11 +1,11 @@
 import {
-  Controller,
   Get,
-  Param,
-  ParseIntPipe,
-  Post,
-  Query,
+  Put,
   Body,
+  Param,
+  Query,
+  Controller,
+  ParseIntPipe,
 } from '@nestjs/common';
 
 import { Question, ROLES } from 'src/common/constants';
@@ -34,12 +34,16 @@ export class QuestionController {
     return this.questionService.findOne(questionId, user.id);
   }
   @Roles(ROLES.CONSULTANT)
-  @Post('/:questionId/answers')
-  createAnswer(
+  @Put('/:questionId/answers')
+  createOrUpdateDraftAnswer(
     @Param('questionId', ParseIntPipe) questionId: number,
     @User() user: { id: number },
     @Body() answer: AnswerDto,
   ): Promise<AnswerDto> {
-    return this.questionService.createDraftAnswer(questionId, user.id, answer);
+    return this.questionService.createOrUpdateDraftAnswer(
+      questionId,
+      user.id,
+      answer,
+    );
   }
 }
