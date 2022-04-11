@@ -22,8 +22,4 @@ export class AnswerDto {
   @IsNotEmpty()
   @IsString()
   recommendations: string;
-
-  @IsNotEmpty()
-  @IsBoolean()
-  isDraft: boolean;
 }

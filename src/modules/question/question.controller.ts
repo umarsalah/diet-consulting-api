@@ -2,6 +2,7 @@ import {
   Get,
   Put,
   Body,
+  Post,
   Param,
   Query,
   Controller,
@@ -41,6 +42,20 @@ export class QuestionController {
     @Body() answer: AnswerDto,
   ): Promise<AnswerDto> {
     return this.questionService.createOrUpdateDraftAnswer(
+      questionId,
+      user.id,
+      answer,
+    );
+  }
+
+  @Roles(ROLES.CONSULTANT)
+  @Post('/:questionId/answers')
+  publishAnswer(
+    @Param('questionId', ParseIntPipe) questionId: number,
+    @User() user: { id: number },
+    @Body() answer: AnswerDto,
+  ): Promise<AnswerDto> {
+    return this.questionService.publishTheDraftAnswer(
       questionId,
       user.id,
       answer,

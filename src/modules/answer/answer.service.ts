@@ -62,19 +62,20 @@ export class AnswerService {
   }
 
   // finally publish an answer for a question
-  async createAnswer(
+  async publishAnswer(
     questionId: number,
     userId: number,
     answer: AnswerDto,
-  ): Promise<Answers> {
-    const newAnswer = await this.answersRepository.create({
-      ...answer,
-      questionId,
-      userId,
-      isDraft: false,
-      createdBy: userId,
-      updatedBy: userId,
-    });
-    return newAnswer;
+  ): Promise<void> {
+    await this.answersRepository.update(
+      {
+        ...answer,
+        isDraft: false,
+        updatedBy: userId,
+      },
+      {
+        where: { questionId, userId, isDraft: true },
+      },
+    );
   }
 }

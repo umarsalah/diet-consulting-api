@@ -60,10 +60,10 @@ export class QuestionService {
     userId: number,
     answer: AnswerDto,
   ): Promise<AnswerDto> {
-    const ifAnswer = await this.questionsRepository.findOne({
+    const ifQuestion = await this.questionsRepository.findOne({
       where: { id: questionId },
     });
-    if (!ifAnswer) {
+    if (!ifQuestion) {
       throw new HttpException(ERRORS.QUESTION_NOT_FOUND, 404);
     }
     await this.upsertDraftAnswer(questionId, userId, answer);
@@ -83,6 +83,30 @@ export class QuestionService {
       } else {
         await this.answersService.createDraft(questionId, userId, answer);
       }
+      return answer;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  // publish an answer for a question
+  async publishTheDraftAnswer(
+    questionId: number,
+    userId: number,
+    answer: AnswerDto,
+  ): Promise<AnswerDto> {
+    try {
+      const ifQuestion = await this.questionsRepository.findOne({
+        where: { id: questionId },
+      });
+      if (!ifQuestion) {
+        throw new HttpException(ERRORS.QUESTION_NOT_FOUND, 404);
+      }
+      await this.answersService.publishAnswer(questionId, userId, answer);
+      await this.questionsRepository.update(
+        { isAnswered: true },
+        { where: { id: questionId } },
+      );
       return answer;
     } catch (error) {
       throw new InternalServerErrorException(error);
