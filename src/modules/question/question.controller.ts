@@ -32,7 +32,7 @@ export class QuestionController {
     @Param('questionId', ParseIntPipe) questionId: number,
     @User() user: { id: number },
   ): Promise<Question> {
-    return this.questionService.findOne(questionId, user.id);
+    return this.questionService.findOneWithAnswersAndDraft(questionId, user.id);
   }
   @Roles(ROLES.CONSULTANT)
   @Put('/:questionId/answers')

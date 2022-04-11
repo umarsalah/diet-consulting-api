@@ -1,7 +1,7 @@
 import {
-  HttpException,
   Inject,
   Injectable,
+  HttpException,
   InternalServerErrorException,
 } from '@nestjs/common';
 
@@ -36,8 +36,18 @@ export class QuestionService {
     }
   }
 
+  // find one question by id
+  async findOne(questionId: number): Promise<Questions> {
+    return await this.questionsRepository.findOne({
+      where: { id: questionId },
+    });
+  }
+
   // Find one question by id with it answers
-  async findOne(questionId: number, userId: number): Promise<Question> {
+  async findOneWithAnswersAndDraft(
+    questionId: number,
+    userId: number,
+  ): Promise<Question> {
     try {
       const question = await this.questionsRepository.findOne({
         where: { id: questionId },
@@ -60,9 +70,7 @@ export class QuestionService {
     userId: number,
     answer: AnswerDto,
   ): Promise<AnswerDto> {
-    const ifQuestion = await this.questionsRepository.findOne({
-      where: { id: questionId },
-    });
+    const ifQuestion = await this.findOne(questionId);
     if (!ifQuestion) {
       throw new HttpException(ERRORS.QUESTION_NOT_FOUND, 404);
     }
@@ -79,7 +87,12 @@ export class QuestionService {
     try {
       const draft = await this.answersService.findDraft(questionId, userId);
       if (draft) {
-        await this.answersService.updateDraft(questionId, userId, answer);
+        await this.answersService.updateOrPublish(
+          questionId,
+          userId,
+          answer,
+          true,
+        );
       } else {
         await this.answersService.createDraft(questionId, userId, answer);
       }
@@ -96,13 +109,16 @@ export class QuestionService {
     answer: AnswerDto,
   ): Promise<AnswerDto> {
     try {
-      const ifQuestion = await this.questionsRepository.findOne({
-        where: { id: questionId },
-      });
+      const ifQuestion = await this.findOne(questionId);
       if (!ifQuestion) {
         throw new HttpException(ERRORS.QUESTION_NOT_FOUND, 404);
       }
-      await this.answersService.publishAnswer(questionId, userId, answer);
+      await this.answersService.updateOrPublish(
+        questionId,
+        userId,
+        answer,
+        false,
+      );
       await this.questionsRepository.update(
         { isAnswered: true },
         { where: { id: questionId } },

@@ -43,34 +43,16 @@ export class AnswerService {
     });
   }
 
-  // Update a draft answer for a question
-  async updateDraft(
+  async updateOrPublish(
     questionId: number,
     userId: number,
     answer: AnswerDto,
+    isDraft: boolean,
   ): Promise<void> {
     await this.answersRepository.update(
       {
         ...answer,
-        isDraft: true,
-        updatedBy: userId,
-      },
-      {
-        where: { questionId, userId, isDraft: true },
-      },
-    );
-  }
-
-  // finally publish an answer for a question
-  async publishAnswer(
-    questionId: number,
-    userId: number,
-    answer: AnswerDto,
-  ): Promise<void> {
-    await this.answersRepository.update(
-      {
-        ...answer,
-        isDraft: false,
+        isDraft,
         updatedBy: userId,
       },
       {
