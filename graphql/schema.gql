@@ -1,12 +1,16 @@
 # Graphql schema for the diet consulting system
 
+interface Node {
+  id: ID!
+}
+
 enum Role {
   PATIENT
   CONSULTANT
 }
 
-type User {
-  id: ID
+type User implements Node {
+  id: ID!
   firstName: String!
   middleName: String
   lastName: String!
@@ -18,7 +22,7 @@ type User {
   updatedAt: String
 }
 
-type Question {
+type Question implements Node {
   id: ID!
   user: User!
   title: String!
@@ -28,7 +32,7 @@ type Question {
   updatedAt: String
 }
 
-type Answer {
+type Answer implements Node {
   id: ID!
   user: User!
   question: Question!
@@ -40,11 +44,13 @@ type Answer {
 }
 
 type Query {
-  users: [User]
-  questions: [Question]
-  answers: [Answer]
+  questions: QuestionsPayload!
   user(id: ID!): User
   question(id: ID!): Question
+}
+
+type QuestionsPayload {
+  data: [Question!]
 }
 
 type Mutation {
@@ -58,19 +64,19 @@ type Mutation {
     password: String
   ): User
 
-  createQuestion(user: ID, title: String, description: String): Question
-  createAnswer(
-    question: ID
-    User: ID
-    title: String
-    description: String
-    isDraft: Boolean
+  questionCreate(user: ID!, title: String!, description: String!): Question
+  answerCreate(
+    question: ID!
+    User: ID!
+    title: String!
+    description: String!
+    isDraft: Boolean!
   ): Answer
 
-  updateAnswer(
-    id: ID
-    title: String
-    description: String
-    isDraft: Boolean
+  answerUpdate(
+    id: ID!
+    title: String!
+    description: String!
+    isDraft: Boolean!
   ): Answer
 }
