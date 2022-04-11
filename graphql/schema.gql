@@ -1,8 +1,8 @@
 # Graphql schema for the diet consulting system
 
 enum Role {
-  patient
-  consultant
+  PATIENT
+  CONSULTANT
 }
 
 type User {
