@@ -1,0 +1,76 @@
+# Graphql schema for the diet consulting system
+
+enum Role {
+  patient
+  consultant
+}
+
+type User {
+  id: ID
+  firstName: String!
+  middleName: String
+  lastName: String!
+  userName: String!
+  email: String!
+  role: Role!
+  password: String!
+  createdAt: String
+  updatedAt: String
+}
+
+type Question {
+  id: ID!
+  user: User!
+  title: String!
+  description: String!
+  isAnswered: Boolean!
+  createdAt: String
+  updatedAt: String
+}
+
+type Answer {
+  id: ID!
+  user: User!
+  question: Question!
+  title: String!
+  description: String!
+  isDraft: Boolean!
+  createdAt: String
+  updatedAt: String
+}
+
+type Query {
+  users: [User]
+  questions: [Question]
+  answers: [Answer]
+  user(id: ID!): User
+  question(id: ID!): Question
+}
+
+type Mutation {
+  createUser(
+    firstName: String
+    middleName: String
+    lastName: String
+    userName: String
+    email: String
+    role: role
+    password: String
+  ): User
+
+  createQuestion(user: ID, title: String, description: String): Question
+  createAnswer(
+    question: ID
+    User: ID
+    title: String
+    description: String
+    isDraft: Boolean
+  ): Answer
+
+  updateAnswer(
+    id: ID
+    title: String
+    description: String
+    isDraft: Boolean
+  ): Answer
+}
