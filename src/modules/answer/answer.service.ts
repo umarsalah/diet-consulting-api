@@ -32,8 +32,8 @@ export class AnswerService {
     questionId: number,
     userId: number,
     answer: AnswerDto,
-  ): Promise<Answers> {
-    const newAnswer = await this.answersRepository.create({
+  ): Promise<void> {
+    await this.answersRepository.create({
       ...answer,
       questionId,
       userId,
@@ -41,7 +41,6 @@ export class AnswerService {
       createdBy: userId,
       updatedBy: userId,
     });
-    return newAnswer;
   }
 
   // Update a draft answer for a question
