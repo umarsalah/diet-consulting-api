@@ -13,7 +13,7 @@ import { Users } from '../user/user.model';
 
 @DefaultScope({
   attributes: {
-    exclude: ['deletedAt'],
+    exclude: ['deletedAt', 'deletedBy'],
   },
 })
 @Table({

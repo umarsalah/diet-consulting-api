@@ -14,7 +14,7 @@ import { Questions } from '../question/question.model';
 
 @DefaultScope({
   attributes: {
-    exclude: ['deletedAt'],
+    exclude: ['deletedAt', 'deletedBy'],
   },
 })
 @Table({
