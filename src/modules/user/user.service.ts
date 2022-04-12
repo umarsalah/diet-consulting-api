@@ -5,7 +5,6 @@ import {
   HttpException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { Op } from 'sequelize';
 
 import { SignupDto, LoginDto } from './dto';
 import { ERRORS, PROVIDERS, User } from 'src/common/constants';
@@ -34,12 +33,17 @@ export class UserService {
     email?: string;
     userName?: string;
   }): Promise<Users> {
+    const where: any = {};
+    if (userNameOrEmail.email) {
+      where.email = userNameOrEmail.email;
+    } else if (userNameOrEmail.userName) {
+      where.userName = userNameOrEmail.userName;
+    }
+    console.log('where', where);
+
     return this.usersRepository.findOne({
       where: {
-        [Op.or]: [
-          { email: userNameOrEmail?.email },
-          { userName: userNameOrEmail?.userName },
-        ],
+        ...where,
       },
     });
   }

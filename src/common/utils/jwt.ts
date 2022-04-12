@@ -9,7 +9,7 @@ export const verifyToken = (token, secret) =>
   });
 
 export const generateToken = (userName: string) => {
-  return jwt.sign({ user: userName }, 'secret', {
+  return jwt.sign({ userName }, 'secret', {
     expiresIn: '8h',
   });
 };
