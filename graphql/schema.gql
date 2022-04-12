@@ -43,9 +43,8 @@ type Answer implements Node {
   updatedAt: String
 }
 
-type Query {
-  questions: QuestionsPayload!
-  user(id: ID!): User
+type Query {  
+  questions(page: Int, offset: Int, limit: Int): QuestionsPayload!
   question(id: ID!): Question
 }
 
@@ -55,21 +54,21 @@ type QuestionsPayload {
 
 type Mutation {
   createUser(
-    firstName: String
+    firstName: String!
     middleName: String
-    lastName: String
-    userName: String
-    email: String
-    role: Role
-    password: String
+    lastName: String!
+    userName: String!
+    email: String!
+    role: Role!
+    password: String!
   ): User
 
-  questionCreate(user: ID!, title: String!, description: String!): Question
+  questionCreate(title: String!, description: String!): Question
   answerCreate(
     question: ID!
-    User: ID!
     title: String!
     description: String!
+    recommendations: String
     isDraft: Boolean!
   ): Answer
 
