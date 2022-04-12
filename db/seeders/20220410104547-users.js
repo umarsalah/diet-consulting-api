@@ -8,7 +8,7 @@ const users = [...Array(50)].map((user) => ({
   email: faker.faker.internet.email(),
   user_name: faker.faker.internet.userName(),
   password: faker.faker.internet.password(8),
-  role: faker.faker.random.arrayElement(['patient', 'consultant']),
+  role: 'patient',
   created_at: new Date(),
   updated_at: new Date(),
   created_by: 1,
