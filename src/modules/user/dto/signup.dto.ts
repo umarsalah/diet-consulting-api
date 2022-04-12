@@ -1,5 +1,5 @@
-import { Transform, TransformFnParams } from 'class-transformer';
-import { ROLES } from 'src/common/constants';
+import { Transform } from 'class-transformer';
+import { ERRORS, ROLES } from 'src/common/constants';
 import {
   IsEnum,
   Matches,
@@ -9,45 +9,36 @@ import {
   IsOptional,
   IsAlphanumeric,
 } from 'class-validator';
+import { trimmer } from 'src/common/utils/trimmer';
 
 export class SignupDto {
-  @Transform(({ value }: TransformFnParams) =>
-    typeof value === 'string' ? value.trim() : value,
-  )
+  @Transform(trimmer)
   @IsNotEmpty()
   @IsEmail()
   email: string;
 
-  @Transform(({ value }: TransformFnParams) =>
-    typeof value === 'string' ? value.trim() : value,
-  )
+  @Transform(trimmer)
   @IsNotEmpty()
   @IsAlphanumeric()
   userName: string;
 
-  @Transform(({ value }: TransformFnParams) =>
-    typeof value === 'string' ? value.trim() : value,
-  )
+  @Transform(trimmer)
   @IsNotEmpty()
   @IsString()
   firstName: string;
 
   @IsOptional()
-  @Transform(({ value }: TransformFnParams) =>
-    typeof value === 'string' ? value.trim() : value,
-  )
+  @Transform(trimmer)
   @IsNotEmpty()
   @IsString()
   middleName?: string;
 
-  @Transform(({ value }: TransformFnParams) =>
-    typeof value === 'string' ? value.trim() : value,
-  )
+  @Transform(trimmer)
   @IsNotEmpty()
   @IsString()
   lastName: string;
 
-  @Transform(({ value }: TransformFnParams) => value.trim())
+  @Transform(trimmer)
   @IsNotEmpty()
   @IsEnum(ROLES, {
     message: 'Type is not valid',
@@ -56,8 +47,8 @@ export class SignupDto {
 
   @IsNotEmpty()
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/, {
-    message:
-      'Password must contain at least one lowercase letter, one uppercase letter, one digit, one special character, and must be at least 8 characters long',
+    // example: 'Password1!'
+    message: ERRORS.PASSWORD_VALIDATION_ERROR,
   })
-  password: string; // example: 'Password1!'
+  password: string;
 }

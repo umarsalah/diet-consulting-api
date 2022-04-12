@@ -1,10 +1,10 @@
-import { Transform, TransformFnParams } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import { IsString, IsNotEmpty } from 'class-validator';
 
+import { trimmer } from 'src/common/utils/trimmer';
+
 export class LoginDto {
-  @Transform(({ value }: TransformFnParams) =>
-    typeof value === 'string' ? value.trim() : value,
-  )
+  @Transform(trimmer)
   @IsNotEmpty()
   @IsString()
   userNameOrEmail: string;

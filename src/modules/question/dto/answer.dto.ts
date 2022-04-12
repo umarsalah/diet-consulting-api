@@ -1,25 +1,22 @@
-import { Transform, TransformFnParams } from 'class-transformer';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+
+import { trimmer } from 'src/common/utils/trimmer';
 
 export class AnswerDto {
-  @Transform(({ value }: TransformFnParams) =>
-    typeof value === 'string' ? value.trim() : value,
-  )
+  @Transform(trimmer)
   @IsNotEmpty()
   @IsString()
   title: string;
 
-  @Transform(({ value }: TransformFnParams) =>
-    typeof value === 'string' ? value.trim() : value,
-  )
+  @Transform(trimmer)
   @IsNotEmpty()
   @IsString()
   description: string;
 
-  @Transform(({ value }: TransformFnParams) =>
-    typeof value === 'string' ? value.trim() : value,
-  )
+  @IsOptional()
+  @Transform(trimmer)
   @IsNotEmpty()
   @IsString()
-  recommendations: string;
+  recommendations?: string;
 }
