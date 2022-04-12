@@ -41,14 +41,18 @@ module.exports = {
       },
       created_by: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       updated_by: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       deleted_at: {
         type: Sequelize.DATE,
+        allowNull: true,
+      },
+      deleted_by: {
+        type: Sequelize.STRING,
         allowNull: true,
       },
     });

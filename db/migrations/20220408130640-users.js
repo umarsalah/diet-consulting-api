@@ -48,28 +48,25 @@ module.exports = {
       },
       created_by: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       updated_by: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       deleted_at: {
         type: Sequelize.DATE,
         allowNull: true,
       },
+      deleted_by: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
     });
-    await queryInterface.sequelize.query(`
-      ALTER TABLE Users
-      ADD not_archived VARCHAR(255) AS (CONCAT(email, '|' , IFNULL(deleted_at, ''))) UNIQUE;
-    `);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Users');
-    await queryInterface.sequelize.query(
-      ` ALTER TABLE Users DROP not_archived;`,
-    );
   },
 };
