@@ -13,8 +13,10 @@ async function bootstrap() {
   });
 
   app.setGlobalPrefix('api/v1');
-  app.useGlobalGuards(new AuthGuards(app.get(UserService), new Reflector()));
-  app.useGlobalGuards(new RolesGuard(new Reflector()));
+  app.useGlobalGuards(
+    new AuthGuards(app.get(UserService), new Reflector()),
+    new RolesGuard(new Reflector()),
+  );
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
 
   await app.listen(process.env.PORT || 3000);
