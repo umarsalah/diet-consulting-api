@@ -7,7 +7,8 @@ import {
 } from '@nestjs/common';
 
 import { SignupDto, LoginDto } from './dto';
-import { ERRORS, PROVIDERS, User } from 'src/common/constants';
+import { User } from 'src/common/types';
+import { ERRORS, PROVIDERS } from 'src/common/constants';
 import { generateToken, hashPassword, comparePassword } from 'src/common/utils';
 
 import { Users } from './user.model';

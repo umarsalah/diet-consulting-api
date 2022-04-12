@@ -9,7 +9,8 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 
-import { Question, ROLES } from 'src/common/constants';
+import { ROLES } from 'src/common/enums';
+import { Question } from 'src/common/types';
 import { Roles, User } from 'src/common/decorators';
 
 import { QuestionService } from './question.service';

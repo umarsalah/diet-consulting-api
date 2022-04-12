@@ -9,7 +9,7 @@ import {
   Unique,
   DefaultScope,
 } from 'sequelize-typescript';
-import { ROLES } from 'src/common/constants';
+import { ROLES } from 'src/common/enums';
 
 @DefaultScope({
   attributes: {

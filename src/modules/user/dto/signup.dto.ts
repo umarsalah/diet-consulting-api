@@ -1,5 +1,6 @@
 import { Transform } from 'class-transformer';
-import { ERRORS, ROLES } from 'src/common/constants';
+import { ERRORS } from 'src/common/constants';
+import { ROLES } from 'src/common/enums';
 import {
   IsEnum,
   Matches,

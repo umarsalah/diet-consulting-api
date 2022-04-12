@@ -1,5 +1,5 @@
 import { Answers } from 'src/modules/answer/answer.model';
-import { ROLES } from './enums';
+import { ROLES } from '../enums';
 
 export type User = {
   user: {

@@ -5,8 +5,9 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 
-import { ERRORS, PROVIDERS, Question } from 'src/common/constants';
+import { ERRORS, PROVIDERS } from 'src/common/constants';
 import { AnswerService } from '../answer/answer.service';
+import { Question } from 'src/common/types';
 import { AnswerDto } from './dto/answer.dto';
 
 import { Questions } from './question.model';
