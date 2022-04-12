@@ -63,4 +63,7 @@ export class Answers extends Model {
 
   @Column(DataType.DATE)
   deletedAt: Date;
+
+  @Column(DataType.STRING)
+  deletedBy: string;
 }

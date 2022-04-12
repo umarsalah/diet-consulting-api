@@ -72,4 +72,7 @@ export class Users extends Model {
 
   @Column(DataType.DATE)
   deletedAt: Date;
+
+  @Column(DataType.STRING)
+  deletedBy: string;
 }

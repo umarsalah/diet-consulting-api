@@ -55,4 +55,7 @@ export class Questions extends Model {
 
   @Column(DataType.DATE)
   deletedAt: Date;
+
+  @Column(DataType.STRING)
+  deletedBy: string;
 }
