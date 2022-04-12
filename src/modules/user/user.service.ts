@@ -69,14 +69,14 @@ export class UserService {
       // Create the new user
       const newUser = await this.usersRepository.create({
         ...newUserInfo,
-        createdBy: newUserInfo.userName,
-        updatedBy: newUserInfo.userName,
       });
       return {
-        id: newUser.id,
-        role: newUser.role,
-        email: newUser.email,
-        userName: newUser.userName,
+        user: {
+          id: newUser.id,
+          role: newUser.role,
+          email: newUser.email,
+          userName: newUser.userName,
+        },
         token: generateToken(newUser.userName),
       };
     } catch (e) {
@@ -114,10 +114,12 @@ export class UserService {
         );
       }
       return {
-        id: user.id,
-        role: user.role,
-        email: user.email,
-        userName: user.userName,
+        user: {
+          id: user.id,
+          role: user.role,
+          email: user.email,
+          userName: user.userName,
+        },
         token: generateToken(user.userName),
       };
     } catch (e) {

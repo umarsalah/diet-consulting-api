@@ -2,10 +2,12 @@ import { Answers } from 'src/modules/answer/answer.model';
 import { ROLES } from './enums';
 
 export type User = {
-  id: number;
-  email: string;
-  userName: string;
-  role: ROLES;
+  user: {
+    id: number;
+    email: string;
+    userName: string;
+    role: ROLES;
+  };
   token: string;
 };
 
