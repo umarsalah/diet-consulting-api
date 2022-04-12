@@ -21,11 +21,15 @@ export class QuestionService {
   ) {}
 
   // Find all questions with pagination and sorting
-  async findAll(pageNr: number): Promise<Questions[]> {
+  async findAll(
+    pageNr: number,
+    offset: number,
+    limit: number,
+  ): Promise<Questions[]> {
     try {
       const questions = await this.questionsRepository.findAll({
-        limit: 10,
-        offset: pageNr * 10,
+        limit,
+        offset: pageNr * offset,
         order: [
           ['isAnswered', 'ASC'],
           ['createdAt', 'DESC'],
