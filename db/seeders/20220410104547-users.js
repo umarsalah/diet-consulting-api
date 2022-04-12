@@ -11,8 +11,6 @@ const users = [...Array(50)].map((user) => ({
   role: 'patient',
   created_at: new Date(),
   updated_at: new Date(),
-  created_by: 1,
-  updated_by: 1,
 }));
 module.exports = {
   up: (queryInterface, Sequelize) => {

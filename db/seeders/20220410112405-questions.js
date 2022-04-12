@@ -3,7 +3,7 @@
 const faker = require('@faker-js/faker');
 
 const questions = [...Array(50)].map((user) => ({
-  user_id: faker.faker.datatype.number({ min: 2, max: 50 }),
+  user_id: faker.faker.datatype.number({ min: 1, max: 50 }),
   title: faker.faker.lorem.sentence(),
   description: faker.faker.lorem.sentence(),
   is_answered: faker.faker.datatype.boolean(),
