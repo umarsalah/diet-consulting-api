@@ -3,6 +3,7 @@ import { Reflector } from '@nestjs/core';
 
 import { UserService } from 'src/modules/user/user.service';
 import { verifyToken } from 'src/common/utils';
+import { SYSTEM } from '../constants/general';
 
 @Injectable()
 export class AuthGuards implements CanActivate {
@@ -13,7 +14,7 @@ export class AuthGuards implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.get<string[]>(
-      'public',
+      SYSTEM.PUBLIC,
       context.getHandler(),
     );
     if (isPublic) {
@@ -26,7 +27,7 @@ export class AuthGuards implements CanActivate {
       return false;
     }
 
-    const decoded = verifyToken(token, 'secret');
+    const decoded = verifyToken(token, SYSTEM.SECRET);
     if (!decoded) {
       return false;
     }

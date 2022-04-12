@@ -1,3 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
 
-export const Public = () => SetMetadata('public', true);
+import { SYSTEM } from '../constants/general';
+
+export const Public = () => SetMetadata(SYSTEM.PUBLIC, true);
