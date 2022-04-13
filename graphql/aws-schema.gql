@@ -1,0 +1,38 @@
+enum Role {
+  PATIENT
+  CONSULTANT
+}
+
+type User @model {
+  id: ID! @primaryKey
+  firstName: String!
+  middleName: String
+  lastName: String!
+  userName: String!
+  email: String!
+  role: Role!
+  password: String!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Question @model {
+  id: ID! @primaryKey
+  user: User! @hasOne(fields: ["id"])
+  title: String!
+  description: String!
+  isAnswered: Boolean!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Answer @model {
+  id: ID! @primaryKey
+  question: Question! @hasOne(fields: ["id"])
+  user: User! @hasMany(fields: ["id"])
+  title: String!
+  description: String!
+  isDraft: Boolean!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
