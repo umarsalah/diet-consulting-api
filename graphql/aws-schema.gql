@@ -11,6 +11,8 @@ type User @model {
   userName: String!
   email: String!
   role: Role!
+  answers: [Answer]
+  questions: [Question]
   password: String!
   createdAt: AWSDateTime
   updatedAt: AWSDateTime

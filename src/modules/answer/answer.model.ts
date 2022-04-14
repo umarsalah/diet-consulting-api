@@ -49,6 +49,9 @@ export class Answers extends Model {
   @Column(DataType.BOOLEAN)
   isDraft: boolean;
 
+  @Column(DataType.DATE)
+  answerTime: Date;
+
   @Column(DataType.STRING)
   createdBy: number;
 

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { PROVIDERS } from 'src/common/constants';
+import { PROVIDERS, SYSTEM } from 'src/common/constants';
 import { AnswerDto } from '../question/dto/answer.dto';
 import { Answers } from './answer.model';
 
@@ -49,11 +49,13 @@ export class AnswerService {
     answer: AnswerDto,
     isDraft: boolean,
   ): Promise<void> {
+    const answerTime = isDraft ? SYSTEM.DEFAULT_TIMESTAMP : Date.now();
     await this.answersRepository.update(
       {
         ...answer,
         isDraft,
         updatedBy: userId,
+        answerTime,
       },
       {
         where: { questionId, userId, isDraft: true },

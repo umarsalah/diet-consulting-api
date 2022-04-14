@@ -22,7 +22,6 @@ module.exports = {
       },
       middle_name: {
         type: Sequelize.STRING,
-        allowNull: true,
       },
       last_name: {
         type: Sequelize.STRING,
@@ -48,19 +47,15 @@ module.exports = {
       },
       created_by: {
         type: Sequelize.STRING,
-        allowNull: true,
       },
       updated_by: {
         type: Sequelize.STRING,
-        allowNull: true,
       },
       deleted_at: {
         type: Sequelize.DATE,
-        allowNull: true,
       },
       deleted_by: {
         type: Sequelize.STRING,
-        allowNull: true,
       },
     });
   },

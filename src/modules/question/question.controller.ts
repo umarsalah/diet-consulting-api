@@ -24,9 +24,9 @@ export class QuestionController {
   @Roles(ROLES.CONSULTANT)
   @Get()
   findAll(
-    @Query('pageNr', ParseIntPipe) pageNr?: number,
-    @Query('offset', ParseIntPipe) offset?: number,
-    @Query('limit', ParseIntPipe) limit?: number,
+    @Query('pageNr') pageNr?: number,
+    @Query('offset') offset?: number,
+    @Query('limit') limit?: number,
   ): Promise<Questions[]> {
     return this.questionService.findAll(pageNr, offset || 10, limit || 10);
   }
